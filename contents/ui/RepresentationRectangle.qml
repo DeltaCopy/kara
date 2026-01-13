@@ -22,10 +22,13 @@ Rectangle {
     property bool isActive: curr_page == pos
     property var abstractTasksModel: TaskManager.AbstractTasksModel
     property var isWindow: abstractTasksModel.IsWindow
+    property var virtualDesktopsRole: abstractTasksModel.VirtualDesktops
+    property var demandsAttentionRole: abstractTasksModel.DemandsAttention
     property int taskCount: 0
     property bool hasWindows: taskCount>0
-    property bool highlightActive: cfg.type != 0
-    property bool needsAttention: tasksModel.anyTaskDemandsAttention
+    property bool hasDemandingWindow: false
+    property bool highlightActive: cfg.type != 0 && cfg.highlightType != 0
+    property bool needsAttention: hasDemandingWindow
     property real highlightOpacity: Utils.getHighlightOpacity()
     property alias hovered: mouseArea.containsMouse
     property var highlightColor:  {
@@ -48,7 +51,7 @@ Rectangle {
     Timer {
         id: blinkTimer
         interval: 1000
-        running: needsAttention && cfg.blinkOnAttentionRequired
+        running: hasDemandingWindow && cfg.blinkOnAttentionRequired
         onTriggered: highlightOpacity==0?1:0
     }
 

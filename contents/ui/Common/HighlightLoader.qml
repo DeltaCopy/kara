@@ -6,6 +6,10 @@ Loader {
     anchors.fill: parent
     asynchronous: true
     //So that representations can also handle this property
+    property int pos: 0
+    property int curr_page: 0
+    property bool hasWindows: false
+    property bool needsAttention: false
     property bool active: curr_page == pos
     property real op: calcOp()
 
@@ -22,7 +26,7 @@ Loader {
         id: blinkTimer
         interval: 700
         repeat: curr_page == pos
-        running: attentionRequired && cfg.blinkOnAttentionRequired
+        running: needsAttention && cfg.blinkOnAttentionRequired
         onTriggered: op = op == 1 ? 0 : 1
     }
     Binding {
@@ -43,7 +47,7 @@ Loader {
     }
     function calcOp() {
         if(curr_page==pos) return 1
-        else if(hasActiveWindow && cfg.slightlyHighlight) return (cfg.highlightOpacityFull && !cfg.plasmaSemiColors)?1:0.6
+        else if(hasWindows && cfg.slightlyHighlight) return (cfg.highlightOpacityFull && !cfg.plasmaSemiColors)?1:0.6
         else return 0
     }
 }
