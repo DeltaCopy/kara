@@ -8,7 +8,7 @@
             }
         ],
         "BugReportUrl": "https://github.com/dhruv8sh/kara/issues",
-        "Category": "Desktop Utility",
+        "Category": "Windows and Tasks",
         "Description": "Desktop switching utility.",
         "EnabledByDefault": false,
         "FormFactors": [
@@ -18,7 +18,7 @@
         "Id": "org.dhruv8sh.kara",
         "License": "GPL-3.0+",
         "Name": "kara",
-        "Version": "0.8.0",
+        "Version": "1.0.0",
         "Website": "https://github.com/dhruv8sh/kara"
     },
     "X-Plasma-API-Minimum-Version": "6.0"

@@ -60,5 +60,18 @@ nix profile install nixpkgs#kara
 
 ## Manual installation
 
-cd into the cloned directory and run ```sh install.sh```.
-Or install from the ```Get new widget functionality``` in KDE Plasma.
+Clone the repository and choose one of the following scripts:
+
+- **Development**: To test the applet without restarting your desktop, run:
+  ```bash
+  ./dev.sh
+  ```
+  This will build, install locally, and open the applet in `plasmoidviewer`.
+
+- **Installation**: To install and apply changes to your live Plasma session, run:
+  ```bash
+  ./install.sh
+  ```
+  This will build, install locally, and restart `plasmashell`.
+
+Or install from the `Get New Widgets` dialog in KDE Plasma.
