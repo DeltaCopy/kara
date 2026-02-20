@@ -1,13 +1,13 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
-import org.kde.plasma.private.pager
 import org.kde.kcmutils as KCM
 import org.kde.config as KConfig
 import org.kde.plasma.core as PlasmaCore
 import org.kde.taskmanager as TaskManager
 import org.kde.activities as Activities
 import org.kde.kirigami as Kirigami
+import org.dhruv8sh.kara
 import "./Utils.js" as Utils
 
 PlasmoidItem {
