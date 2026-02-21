@@ -1,0 +1,68 @@
+# Fedora 42/43
+# Build Kara from release tag and publish .rpm package
+
+on:
+  workflow_call:
+    inputs:
+      cache-file-path:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      containers:
+        required: true
+        type: string
+jobs:
+  build:
+    strategy:
+      max-parallel: 2
+      matrix:
+        image: ${{ fromJson(inputs.containers) }}
+    runs-on: ubuntu-24.04
+    container: ${{ matrix.image }}
+    steps:
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          key: ${{ runner.os }}-v${{ inputs.version }}-${{ hashFiles(inputs.cache-file-path) }}
+          path: ${{ inputs.cache-file-path }}
+          fail-on-cache-miss: true
+      - name: Install dependencies
+        run: |
+          sudo dnf install -y -q cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclarative-devel \
+              kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma-devel \
+              plasma-activities-devel kwin-devel wayland-devel libepoxy-devel \
+              libdrm-devel plasma-workspace-devel kf6-kitemmodels-devel
+      - name: Extract tarball
+        run: tar xf ${{ inputs.cache-file-path }}
+      - name: Build source
+        run: |
+          cmake_opts=(
+            -B kara-${{ inputs.version }}/build \
+            -S kara-${{ inputs.version }} \
+            -DBUILD_RPMS=ON
+          )
+          echo "${cmake_opts[@]}"
+          cmake "${cmake_opts[@]}" && cmake --build kara-${{ inputs.version }}/build -j$(nproc) && echo "Build completed!" || echo "Build failed!" || exit 1
+      - name: Build RPM package
+        id: step_build
+        run: |
+          cd kara-${{ inputs.version }}/build; cpack -G RPM -V -DCPACK_THREADS=$(nproc)
+          artifact=$GITHUB_WORKSPACE/kara-${{ inputs.version }}/packages/kara-${{ inputs.version }}.x86_64.rpm
+          source /etc/os-release
+          echo "Version ID = $VERSION_ID"
+          publish_filename=kara-${{ inputs.version }}.fc$VERSION_ID.x86_64.rpm
+          echo "Moving file to $GITHUB_WORKSPACE/$publish_filename"
+          mv $artifact $GITHUB_WORKSPACE/$publish_filename
+          echo "ARTIFACT=$publish_filename" >> "$GITHUB_ENV"
+          SHA256SUM=$(sha256sum $GITHUB_WORKSPACE/$publish_filename | awk '{ print $1 }')
+          echo "ARTIFACT = $publish_filename | SHA256SUM = $SHA256SUM"
+          echo "SHA256SUM=$SHA256SUM" >> "$GITHUB_ENV"
+      - name: Publish RPM
+        if: ${{ env.SHA256SUM != '' }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ env.ARTIFACT }}
+          retention-days: 1
