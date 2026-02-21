@@ -1,6 +1,5 @@
 
 cmake_minimum_required(VERSION 3.27)
-
 project(kara)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -11,6 +10,11 @@ set(KF6_MIN_VERSION "6.0.0")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH}  ${CMAKE_SOURCE_DIR}/cmake)
+
+if(BUILD_RPMS OR BUILD_DEBS)
+    include(cmake/CPackLists.cmake)
+endif()
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
