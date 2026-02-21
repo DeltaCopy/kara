@@ -57,11 +57,11 @@ jobs:
           retention-days: 1
 
   Fedora:
-    needs: release-ci
+    needs: build-ci
     uses: ./.github/workflows/fedora.yml
     with:
-      cache-file-path: ${{ needs.release-ci.outputs.ASSET }}
-      version: ${{ needs.release-ci.outputs.VERSION }}
+      cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+      version: ${{ needs.build-ci.outputs.VERSION }}
       containers: "['fedora:42','fedora:43']"
 
   # release:
