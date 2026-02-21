@@ -74,7 +74,7 @@ jobs:
 
   openSUSE-Tumbleweed:
     needs: build-ci
-    uses: ./github/workflows/opensuse-tw.yml
+    uses: ./.github/workflows/opensuse-tw.yml
     with:
       cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
       version: ${{ needs.build-ci.outputs.VERSION }}
