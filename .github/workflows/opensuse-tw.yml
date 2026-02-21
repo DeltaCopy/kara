@@ -1,6 +1,6 @@
 # openSUSE Tumbleweed
 # Build Kara from release tag and publish .rpm package
-name: openSUSE Tumbleweed build
+
 on:
   workflow_call:
     inputs:
