@@ -1,6 +1,6 @@
 # Archlinux
 # Build Kara from release tag and publish .zst package
-
+name: Archlinux build
 on:
   workflow_call:
     inputs:
