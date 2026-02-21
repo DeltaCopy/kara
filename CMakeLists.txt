@@ -1,6 +1,15 @@
 
 cmake_minimum_required(VERSION 3.27)
-project(kara)
+
+# Get version
+file(READ "${CMAKE_SOURCE_DIR}/VERSION" VER_RAW)
+string(STRIP ${VER_RAW} VER)
+
+project(
+    kara
+    DESCRIPTION "KDE Plasma Pager Applet"
+    VERSION ${VER}
+)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
