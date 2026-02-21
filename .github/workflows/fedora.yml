@@ -1,6 +1,6 @@
 # Fedora 42/43
 # Build Kara from release tag and publish .rpm package
-
+name: Fedora 42 build
 on:
   workflow_call:
     inputs:
