@@ -1,6 +1,6 @@
 # openSUSE Tumbleweed
 # Build Kara from release tag and publish .rpm package
-
+name: openSUSE Tumbleweed build
 on:
   workflow_call:
     inputs:
@@ -21,6 +21,7 @@ jobs:
               kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma6-devel \
               plasma6-activities-devel kwin6-devel wayland-devel libepoxy-devel \
               libdrm-devel plasma6-workspace-devel kf6-kitemmodels-devel
+      - uses: actions/cache/restore@v4
         id: cache
         with:
           key: ${{ runner.os }}-v${{ inputs.version }}-${{ hashFiles(inputs.cache-file-path) }}
