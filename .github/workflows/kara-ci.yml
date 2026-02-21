@@ -66,9 +66,15 @@ jobs:
       version: ${{ needs.build-ci.outputs.VERSION }}
       containers: "['fedora:42','fedora:43']"
 
+  Archlinux:
+    needs: build-ci
+    uses: ./.github/workflows/archlinux.yml
+    with:
+      version: ${{ needs.build-ci.outputs.VERSION }}
+
   release:
     uses: ./.github/workflows/release-ci.yml
     needs:
       [
-        "fedora",
+        "archlinux",
       ]
