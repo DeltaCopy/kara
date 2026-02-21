@@ -1,5 +1,5 @@
 # Build Kara and publish release
-name: Kara build & release
+name: Kara build
 on:
   push:
     tags:
@@ -7,8 +7,9 @@ on:
 env:
   REPO_DEV: DeltaCopy
   REPO_NAME: kara
+  BUILD_REPO: https://github.com/DeltaCopy/kara
 jobs:
-  release-ci:
+  build-ci:
     runs-on: ubuntu-24.04
     outputs:
       VERSION: ${{ steps.step_getlatest_tag.outputs.VERSION }}
