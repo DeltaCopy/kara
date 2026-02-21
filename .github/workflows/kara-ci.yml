@@ -1,7 +1,9 @@
 # Build Kara and publish release
 name: Kara build CI
-on:
-  workflow_dispatch:
+on:  
+  push:
+    tags:
+      - "v*"
 env:
   REPO_DEV: DeltaCopy
   REPO_NAME: kara
