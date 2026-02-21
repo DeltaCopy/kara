@@ -1,4 +1,4 @@
-name: Publish release
+name: Kara publish release
 on: workflow_call
 jobs:
   publish:
