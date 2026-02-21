@@ -58,23 +58,30 @@ jobs:
           path: VERSION
           retention-days: 1
 
-  Fedora:
+  # Fedora:
+  #   needs: build-ci
+  #   uses: ./.github/workflows/fedora.yml
+  #   with:
+  #     cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+  #     version: ${{ needs.build-ci.outputs.VERSION }}
+  #     containers: "['fedora:42','fedora:43']"
+
+  # Archlinux:
+  #   needs: build-ci
+  #   uses: ./.github/workflows/archlinux.yml
+  #   with:
+  #     version: ${{ needs.build-ci.outputs.VERSION }}
+
+  openSUSE-Tumbleweed:
     needs: build-ci
-    uses: ./.github/workflows/fedora.yml
+    uses: ./github/workflows/opensuse-tw.yml
     with:
       cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
-      version: ${{ needs.build-ci.outputs.VERSION }}
-      containers: "['fedora:42','fedora:43']"
-
-  Archlinux:
-    needs: build-ci
-    uses: ./.github/workflows/archlinux.yml
-    with:
       version: ${{ needs.build-ci.outputs.VERSION }}
 
   release:
     uses: ./.github/workflows/release-ci.yml
     needs:
       [
-        "archlinux",
+        "opensuse-tumbleweed",
       ]

@@ -1,7 +1,7 @@
 name: Kara release
 on: workflow_call
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
