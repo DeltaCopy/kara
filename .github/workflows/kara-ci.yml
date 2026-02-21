@@ -48,7 +48,7 @@ jobs:
           path: ${{ steps.step_get_asset.outputs.ASSET }}
           key: ${{ runner.os }}-v${{ steps.step_getlatest_tag.outputs.VERSION }}-${{ hashFiles(steps.step_get_asset.outputs.ASSET) }}
       - name: Save version
-        run: echo ${{ steps.step_get_artifact.outputs.VERSION }} > VERSION
+        run: echo ${{ steps.step_getlatest_tag.outputs.VERSION }} > VERSION
       - name: Upload version
         uses: actions/upload-artifact@v5
         with:
