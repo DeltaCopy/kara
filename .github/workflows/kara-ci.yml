@@ -1,5 +1,5 @@
 # Build Kara and publish release
-name: Kara build & release
+name: Kara build
 on:
   workflow_dispatch:
 env:
