@@ -10,7 +10,7 @@ env:
   BUILD_REPO: https://github.com/DeltaCopy/kara
 jobs:
   build-ci:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.step_getlatest_tag.outputs.VERSION }}
       ASSET: ${{ steps.step_get_asset.outputs.ASSET }}

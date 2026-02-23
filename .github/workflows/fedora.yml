@@ -19,7 +19,7 @@ jobs:
       max-parallel: 2
       matrix:
         image: ${{ fromJson(inputs.containers) }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     container: ${{ matrix.image }}
     steps:
       - uses: actions/cache/restore@v4

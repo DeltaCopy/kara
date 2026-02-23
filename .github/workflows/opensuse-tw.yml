@@ -12,7 +12,7 @@ on:
         type: string
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     container: opensuse/tumbleweed:latest
     steps:
       - name: Install build dependencies
