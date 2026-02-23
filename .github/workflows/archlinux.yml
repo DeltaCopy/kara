@@ -46,12 +46,12 @@ jobs:
 
       - name: Change permissions of build directory
         run: |
-          chown builduser:builduser -R /var/tmp/kara-archlinux
+          chown builduser:builduser -R /tmp/kara-archlinux
       - name: Generate package checksum
-        run: sudo -u builduser bash -c 'cd /var/tmp/kara-archlinux; makepkg -g >> PKGBUILD'
+        run: sudo -u builduser bash -c 'cd /tmp/kara-archlinux; makepkg -g >> PKGBUILD'
       - name: Build package
         run: |
-          sudo -u builduser bash -c 'cd /var/tmp/kara-archlinux; makepkg -s --noconfirm'
+          sudo -u builduser bash -c 'cd /tmp/kara-archlinux; makepkg -s --noconfirm'
           zst_file=$(find /var/tmp/kara-archlinux -name "*.zst*")
           publish_filename=kara-${{ inputs.version }}-x86_64.pkg.zst
           mv "$zst_file" $publish_filename
