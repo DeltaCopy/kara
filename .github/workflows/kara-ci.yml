@@ -5,9 +5,9 @@ on:
     tags:
       - "v*"
 env:
-  REPO_DEV: dhruv8sh
+  REPO_DEV: deltacopy
   REPO_NAME: kara
-  BUILD_REPO: https://github.com/dhruv8sh/kara
+  BUILD_REPO: https://github.com/deltacopy/kara
 jobs:
   build-ci:
     runs-on: ubuntu-latest

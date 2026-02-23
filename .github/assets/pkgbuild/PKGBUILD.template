@@ -3,7 +3,7 @@
 
 # basic info
 _gitname=kara
-dev="dhruv8sh"
+dev="deltacopy"
 pkgname="plasma6-applets-${_gitname}"
 pkgver=${version}
 pkgrel=1
