@@ -1,0 +1,105 @@
+# Build Kara and publish release
+name: Kara build CI
+on:  
+  push:
+    tags:
+      - "v*"
+env:
+  REPO_DEV: DeltaCopy
+  REPO_NAME: kara
+  BUILD_REPO: https://github.com/DeltaCopy/kara
+jobs:
+  build-ci:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.step_getlatest_tag.outputs.VERSION }}
+      ASSET: ${{ steps.step_get_asset.outputs.ASSET }}
+    steps:
+      - name: Checkout local
+        uses: actions/checkout@v4.2.0
+        with:
+          repository: ${{ github.repository }}
+          sparse-checkout: |
+            .github/workflows
+
+      - name: Install build dependencies
+        run: sudo apt-get install curl jq -y -qq
+      - name: Get latest Kara release tag
+        id: step_getlatest_tag
+        run: |
+          # get latest release tag from remote
+
+          latest_tag=$(curl -s https://api.github.com/repos/$REPO_DEV/$REPO_NAME/releases/latest |  jq -r '.tag_name')
+
+          echo "INFO: Latest tag = $latest_tag"
+          test ! -z "$latest_tag" && echo "LATEST_TAG=$latest_tag" >> "$GITHUB_ENV" \
+          || echo "ERROR: Latest tag not found" || exit 1
+
+           # use the tag name but remove the 'v' for the asset name to publish
+          tagname=$(echo $latest_tag | sed 's/v//')
+
+          echo "VERSION=$tagname" >> "$GITHUB_OUTPUT"
+      - name: Download tag asset
+        id: step_get_asset
+        run: |
+          curl -L $BUILD_REPO/archive/refs/tags/${{ env.LATEST_TAG }}.tar.gz --output kara-${{ env.LATEST_TAG }}.tar.gz
+          echo "ASSET=kara-${{ env.LATEST_TAG }}.tar.gz" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache/save@v4
+        id: cache
+        with:
+          path: ${{ steps.step_get_asset.outputs.ASSET }}
+          key: ${{ runner.os }}-v${{ steps.step_getlatest_tag.outputs.VERSION }}-${{ hashFiles(steps.step_get_asset.outputs.ASSET) }}
+      - name: Save version
+        run: echo ${{ steps.step_getlatest_tag.outputs.VERSION }} > VERSION
+      - name: Upload version
+        uses: actions/upload-artifact@v5
+        with:
+          name: VERSION
+          path: VERSION
+          retention-days: 1
+
+  Fedora:
+    needs: build-ci
+    uses: ./.github/workflows/fedora.yml
+    with:
+      cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+      version: ${{ needs.build-ci.outputs.VERSION }}
+      containers: "['fedora:42','fedora:43']"
+
+  Archlinux:
+    needs: build-ci
+    uses: ./.github/workflows/archlinux.yml
+    with:
+      version: ${{ needs.build-ci.outputs.VERSION }}
+
+  openSUSE-Tumbleweed:
+    needs: build-ci
+    uses: ./.github/workflows/opensuse-tw.yml
+    with:
+      cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+      version: ${{ needs.build-ci.outputs.VERSION }}
+
+  Debian14:
+    needs: build-ci
+    uses: ./.github/workflows/debian14.yml
+    with:
+      cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+      version: ${{ needs.build-ci.outputs.VERSION }}
+  
+  KDENeon-User:
+    needs: build-ci
+    uses: ./.github/workflows/kdeneon-user.yml
+    with:
+      cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
+      version: ${{ needs.build-ci.outputs.VERSION }}
+
+  release:
+    uses: ./.github/workflows/release-ci.yml
+    needs:
+      [
+        "archlinux",
+        "fedora",
+        "opensuse-tumbleweed",
+        "debian14",
+        "kdeneon-user"
+      ]

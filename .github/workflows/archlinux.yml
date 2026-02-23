@@ -1,0 +1,57 @@
+# Archlinux
+# Build Kara from release tag and publish .zst package
+name: Archlinux build
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+env:
+  PKGBUILD: $GITHUB_WORKSPACE/.github/assets/pkgbuild/PKGBUILD.template
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Checkout local
+        uses: actions/checkout@v4.2.0
+        with:
+          repository: ${{ github.repository }}
+          sparse-checkout: .github
+          sparse-checkout-cone-mode: false
+      - name: System update
+        run: pacman -Syu --noconfirm
+      - name: Install sudo, git and compile dependencies
+        run: |
+           pacman -Syq base-devel --noconfirm
+      - name: Setup build user
+        run: |
+          useradd builduser -m # Create the builduser
+          passwd -d builduser # Delete the buildusers password
+          printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers # Allow the builduser passwordless sudo
+      - name: Update PKGBUILD file with new checksum and git tag values
+        run: |
+          # update tag with latest version
+          mkdir /var/tmp/kara-archlinux
+          cp ${{ env.PKGBUILD }} /var/tmp/kara-archlinux/PKGBUILD
+          sed -i 's/${version}/'${{ inputs.version }}'/' /var/tmp/kara-archlinux/PKGBUILD
+      - name: Change permissions of build directory
+        run: |
+          chown builduser:builduser -R /var/tmp/kara-archlinux
+      - name: Generate package checksum
+        run: sudo -u builduser bash -c 'cd /var/tmp/kara-archlinux; makepkg -g >> PKGBUILD'
+      - name: Build package
+        run: |
+          sudo -u builduser bash -c 'cd /var/tmp/kara-archlinux; makepkg -s --noconfirm'
+          zst_file=$(find /var/tmp/kara-archlinux -name "*.zst*")
+          publish_filename=kara-${{ inputs.version }}-x86_64.pkg.zst
+          mv "$zst_file" $publish_filename
+          echo "ARTIFACT=$publish_filename" >> "$GITHUB_ENV"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ env.ARTIFACT }}
+          retention-days: 1
+
