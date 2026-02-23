@@ -118,3 +118,6 @@ Clone the repository and choose one of the following scripts:
   ./install.sh
   ```
   This will build, install locally, and restart `plasmashell`.
+
+> [!WARNING]
+> Due to the move to a c++ plugin environment which requires compilation, this KDE Plasma applet can no longer be installed directly from the KDE store.
