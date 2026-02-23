@@ -64,7 +64,7 @@ nix profile install nixpkgs#kara
 
 #### <u>Archlinux</u>
 ```
-sudo pacman -S base-devel qt6-base qt6-declarative kwin \
+sudo pacman -S base-devel cmake extra-cmake-modules qt6-base qt6-declarative kwin \
   libplasma plasma-activities plasma-workspace --noconfirm
 ```
 
@@ -82,6 +82,24 @@ sudo dnf install -y cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclara
   kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma-devel \
   plasma-activities-devel kwin-devel wayland-devel libepoxy-devel \
   libdrm-devel plasma-workspace-devel kf6-kitemmodels-devel
+```
+
+### <u>Debian14 (forky)</u>
+```
+sudo apt-get -y install cmake build-essential \
+  qt6-declarative-dev extra-cmake-modules \
+  qt6-base-dev libkf6i18n-dev libkf6service-dev \
+  libkf6windowsystem-dev plasma-workspace-dev libplasmaactivities-dev \
+  kwin-dev pkg-config libdrm-dev
+```
+
+### <u>KDE Neon (user)</u>
+```
+sudo apt-get -y install cmake build-essential \
+  qt6-declarative-dev extra-cmake-modules \
+  qt6-base-dev libkf6i18n-dev libkf6service-dev \
+  libkf6windowsystem-dev plasma-workspace-dev libkf6activities-dev \
+  kwin-dev pkg-config libdrm-dev gettext
 ```
 
 > [!NOTE]
