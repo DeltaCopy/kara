@@ -16,12 +16,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: debian:forky
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/cache/restore@v4
-        with:
-          key: ${{ runner.os }}-v${{ inputs.version }}-${{ hashFiles(inputs.cache-file-path) }}
-          path: ${{ inputs.cache-file-path }}
-          fail-on-cache-miss: true
       - name: Update system
         run: apt update -y && apt dist-upgrade -y
       - name: Install build dependencies
@@ -31,6 +29,11 @@ jobs:
             qt6-base-dev libkf6i18n-dev libkf6service-dev \
             libkf6windowsystem-dev plasma-workspace-dev libplasmaactivities-dev \
             kwin-dev pkg-config libdrm-dev
+      - uses: actions/cache/restore@v4
+        with:
+          key: ${{ runner.os }}-v${{ inputs.version }}-${{ hashFiles(inputs.cache-file-path) }}
+          path: ${{ inputs.cache-file-path }}
+          fail-on-cache-miss: true
       - name: Extract release tarball
         run: tar xvf ${{ inputs.cache-file-path }}
       - name: Build kara
