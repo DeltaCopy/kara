@@ -84,6 +84,9 @@ sudo dnf install -y cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclara
   libdrm-devel plasma-workspace-devel kf6-kitemmodels-devel
 ```
 
+> [!NOTE]
+> Running either the `dev.sh` or `install.sh` installs for the current user (no system-wide files) typically this is inside $HOME/.local/share/plasma/plasmoids
+
 Clone the repository and choose one of the following scripts:
 
 - **Development**: To test the applet without restarting your desktop, run:
@@ -97,5 +100,3 @@ Clone the repository and choose one of the following scripts:
   ./install.sh
   ```
   This will build, install locally, and restart `plasmashell`.
-
-Or install from the `Get New Widgets` dialog in KDE Plasma.
