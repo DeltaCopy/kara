@@ -9,7 +9,6 @@ on:
         type: string
 env:
   PKGBUILD: $GITHUB_WORKSPACE/.github/assets/pkgbuild/PKGBUILD.template
-  BUILD_REPO: https://github.com/deltacopy/kara
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,15 +34,8 @@ jobs:
         run: |
           # update tag with latest version
           mkdir /var/tmp/kara-archlinux
-          cp ${{ env.PKGBUILD }} /tmp/kara-archlinux/PKGBUILD
-          sed -i 's/${version}/'${{ inputs.version }}'/' /tmp/kara-archlinux/PKGBUILD
-
-          # update checksum
-          sha256sum_kara=$(curl -Ls $BUILD_REPO/archive/refs/tags/v${{ inputs.version }}.tar.gz | sha256sum | awk {'print $1'})
-          sed -i 's/${sha256sums}/'${sha256sum_kara}'/' /tmp/kara-archlinux/PKGBUILD
-
-          cat /tmp/kara-archlinux/PKGBUILD
-
+          cp ${{ env.PKGBUILD }} /var/tmp/kara-archlinux/PKGBUILD
+          sed -i 's/${version}/'${{ inputs.version }}'/' /var/tmp/kara-archlinux/PKGBUILD
       - name: Change permissions of build directory
         run: |
           chown builduser:builduser -R /var/tmp/kara-archlinux
