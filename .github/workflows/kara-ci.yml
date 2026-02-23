@@ -79,16 +79,16 @@ jobs:
       cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
       version: ${{ needs.build-ci.outputs.VERSION }}
 
-  debian14:
+  Debian14:
     needs: build-ci
     uses: ./.github/workflows/debian14.yml
     with:
       cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
       version: ${{ needs.build-ci.outputs.VERSION }}
   
-  kde-neon-user:
+  KDENeon-User:
     needs: build-ci
-    uses: ./.github/workflows/kde-neon-user.yml
+    uses: ./.github/workflows/kdeneon-user.yml
     with:
       cache-file-path: ${{ needs.build-ci.outputs.ASSET }}
       version: ${{ needs.build-ci.outputs.VERSION }}
@@ -101,5 +101,5 @@ jobs:
         "fedora",
         "opensuse-tumbleweed",
         "debian14",
-        "kde-neon-user"
+        "kdeneon-user"
       ]

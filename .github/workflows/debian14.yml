@@ -1,6 +1,6 @@
 # Debian 14 testing edition (forky)
 # Build Kara from release tag and publish .deb package
-
+name: Debian14 build
 on:
   workflow_call:
     inputs:
