@@ -78,7 +78,7 @@ sudo zypper in -y cmake gcc-c++ cmake extra-cmake-modules qt6-base-devel qt6-dec
 
 ### <u>Fedora</u>
 ```
-sudo dnf install -y -q cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclarative-devel \
+sudo dnf install -y cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclarative-devel \
   kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma-devel \
   plasma-activities-devel kwin-devel wayland-devel libepoxy-devel \
   libdrm-devel plasma-workspace-devel kf6-kitemmodels-devel
