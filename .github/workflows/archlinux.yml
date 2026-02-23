@@ -34,7 +34,7 @@ jobs:
       - name: Update PKGBUILD file with new checksum and git tag values
         run: |
           # update tag with latest version
-          mkdir /var/tmp/kara-archlinux
+          mkdir /tmp/kara-archlinux
           cp ${{ env.PKGBUILD }} /tmp/kara-archlinux/PKGBUILD
           sed -i 's/${version}/'${{ inputs.version }}'/' /tmp/kara-archlinux/PKGBUILD
 
