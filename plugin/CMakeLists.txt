@@ -9,7 +9,7 @@ find_package(LibTaskManager REQUIRED)
 
 qt_add_qml_module(kara
     URI "org.dhruv8sh.kara"
-    VERSION 1.0
+    VERSION ${VER}
     SOURCES ${kara_source}
 )
 

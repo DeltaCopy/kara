@@ -39,6 +39,8 @@ find_package(Plasma ${KF6_MIN_VERSION} REQUIRED)
 find_package(PlasmaActivities ${KF6_MIN_VERSION} REQUIRED)
 find_package(KWin REQUIRED)
 
+configure_file(cmake/metadata.json.cmake ${CMAKE_SOURCE_DIR}/package/metadata.json)
+
 add_subdirectory(plugin)
 plasma_install_package(package org.dhruv8sh.kara)
 
