@@ -57,8 +57,56 @@ nix-env -iA nixpkgs.kara
 # with flakes:
 nix profile install nixpkgs#kara
 ```
+## Pre-built packages
+
+Available from https://github.com/dhruv8sh/kara/releases
 
 ## Manual installation
+
+### Build dependencies
+
+#### <u>Archlinux</u>
+```
+sudo pacman -S base-devel cmake extra-cmake-modules qt6-base qt6-declarative kwin \
+  libplasma plasma-activities plasma-workspace --noconfirm
+```
+
+### <u>openSUSE Tumbleweed</u>
+```
+sudo zypper in -y cmake gcc-c++ cmake extra-cmake-modules qt6-base-devel qt6-declarative-devel \
+  kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma6-devel \
+  plasma6-activities-devel kwin6-devel wayland-devel libepoxy-devel \
+  libdrm-devel plasma6-workspace-devel kf6-kitemmodels-devel
+```
+
+### <u>Fedora</u>
+```
+sudo dnf install -y cmake extra-cmake-modules g++ qt6-qtbase-devel qt6-qtdeclarative-devel \
+  kf6-ki18n-devel kf6-kservice-devel kf6-kwindowsystem-devel libplasma-devel \
+  plasma-activities-devel kwin-devel wayland-devel libepoxy-devel \
+  libdrm-devel plasma-workspace-devel kf6-kitemmodels-devel
+```
+
+### <u>Debian14 (forky)</u>
+```
+sudo apt-get -y install cmake build-essential \
+  qt6-declarative-dev extra-cmake-modules \
+  qt6-base-dev libkf6i18n-dev libkf6service-dev \
+  libkf6windowsystem-dev plasma-workspace-dev libplasmaactivities-dev \
+  kwin-dev pkg-config libdrm-dev
+```
+
+### <u>KDE Neon (user)</u>
+```
+sudo apt-get -y install cmake build-essential \
+  qt6-declarative-dev extra-cmake-modules \
+  qt6-base-dev libkf6i18n-dev libkf6service-dev \
+  libkf6windowsystem-dev plasma-workspace-dev libkf6activities-dev \
+  kwin-dev pkg-config libdrm-dev gettext
+```
+
+> [!NOTE]
+> Running either the `dev.sh` or `install.sh` installs for the current user (no system-wide files) typically this is inside $HOME/.local/share/plasma/plasmoids
 
 Clone the repository and choose one of the following scripts:
 
@@ -74,4 +122,5 @@ Clone the repository and choose one of the following scripts:
   ```
   This will build, install locally, and restart `plasmashell`.
 
-Or install from the `Get New Widgets` dialog in KDE Plasma.
+> [!WARNING]
+> Due to the move to a c++ plugin environment which requires compilation, this KDE Plasma applet can no longer be installed directly from the KDE store.
