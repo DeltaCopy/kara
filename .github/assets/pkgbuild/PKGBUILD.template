@@ -20,8 +20,6 @@ makedepends=(
     'git'
 )
 
-options=(!emptydirs !debug)
-
 source=(
     "${url}/archive/refs/tags/v${pkgver}.tar.gz"
 )
